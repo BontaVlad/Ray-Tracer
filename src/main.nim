@@ -61,9 +61,9 @@ proc color(r: var Ray, world: HitableList, depth: int): Vector3d =
 
 proc main =
   let
-    nx = 800
-    ny = 600
-    ns = 100
+    nx = 200
+    ny = 200
+    ns = 10
     lookfrom = vector3d(13.0, 2.0, 3.0)
     lookat = vector3d(0.0, 0.0, 0.0)
     dist_to_focus = 10.0
@@ -79,8 +79,7 @@ proc main =
     #   newSphere(vector3d(-1.0, 0.0, -1.0), 0.5, newDielectric(1.5)),
     #   newSphere(vector3d(-1.0, 0.0, -1.0), -0.45, newDielectric(1.5)),
     # ])
-    world = random_scene()
-    bar = newProgressBar(total=nx*ny*ns)
+    # bar = newProgressBar(total=nx*ny*ns)
 
 
   for j in countdown(ny-1, 0):
@@ -92,7 +91,7 @@ proc main =
           v = (j.float + drand48()) / ny.float
         var r = cam.ray(u, v)
         col += color(r, world, 0)
-        bar.increment()
+        # bar.increment()
 
       col /= ns.float
       data.add((255.99 * sqrt(col.x)).uint8.clamp(0, 255))
@@ -100,7 +99,7 @@ proc main =
       data.add((255.99 * sqrt(col.z)).uint8.clamp(0, 255))
 
 
-  bar.finish()
+  # bar.finish()
   stbiw.writePNG("test.png", nx, ny, stbiw.RGB, data)
 
 when isMainModule:
